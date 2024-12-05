@@ -116,3 +116,21 @@
     width: 700px;
   }
 }
+
+@media (min-width: 1200px) {
+  .home-card {
+    flex-direction: row;
+  }
+
+  .home-content-container {
+    padding: 100px 20px 100px 20px;
+    align-items: flex-start;
+    text-align: left;
+    align-content: space-between;
+    flex-flow: wrap;
+  }
+
+  .home-image-container img {
+    width: 380px;
+  }
+}
