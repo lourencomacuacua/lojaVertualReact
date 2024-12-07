@@ -7,6 +7,7 @@ import { SpringPage } from '../../types/vendor/spring';
 import axios from 'axios';
 import { AxiosParams } from '../../types/vendor/axios';
 import { BASE_URL } from '../../util/requests';
+import { Link } from 'react-router-dom';
 const Catalog = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
 
@@ -21,13 +22,24 @@ const Catalog = () => {
     };
     axios(params).then((response) => {
       setPage(response.data);
-      console.log(page);
     });
   }, []);
   return (
     <div className="container my-4 catalog-container">
       <div className="row catalogo-title-container">
         <h1>Catálogo de produtos</h1>
+      </div>
+
+      <div className="row">
+        {page?.content.map((product) => {
+          return (
+            <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
+              <Link to="/product/1">
+                <ProductCard product={product} />
+              </Link>
+            </div>
+          );
+        })}
       </div>
 
       <div className="row">
