@@ -1,3 +1,7 @@
 .btn h6 {
   color: #fff;
 }
+
+.btn-container button {
+  width: 100%;
+}
