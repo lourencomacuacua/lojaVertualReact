@@ -1,10 +1,12 @@
 import ProductCard from '../../components/ProductCard';
 import { Product } from '../../types/product';
-
+import './styles.css';
 const Catalog = () => {
   return (
-    <div className="container my-4">
-      <div className="row"></div>
+    <div className="container my-4 catalog-container">
+      <div className="row catalogo-title-container">
+        <h1>Catálogo de produtos</h1>
+      </div>
     </div>
   );
 };
