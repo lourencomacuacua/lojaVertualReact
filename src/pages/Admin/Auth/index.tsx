@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './styles.css';
 import authImage from '../../../assets/images/main-img.svg';
+import Login from './Login';
 const Auth = () => {
   return (
     <div className="auth-container">
@@ -17,7 +18,7 @@ const Auth = () => {
       </div>
       <div className="auth-form-container">
         <Routes>
-          <Route path="login" element={<h1>Card de Login</h1>} />
+          <Route path="login" element={<Login />} />
           <Route path="signup" element={<h1>Card de Signup</h1>} />
           <Route path="recover" element={<h1>Card de Recover</h1>} />
         </Routes>
