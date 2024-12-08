@@ -1,23 +1,25 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Catalog from './pages/Catalog';
 import Admin from './pages/Admin';
 import ProductDetails from './pages/ProductDetails';
 import Auth from './pages/Admin/Auth';
-
-type LoginResponse = {
-  access_token: string;
-  token_type: string;
-  expires_in: Number;
-  scope: string;
-  userFirstName: string;
-  userId: number;
-};
-
+import { setNavigate } from './util/navigateHelper';
+import { useEffect } from 'react';
 const Routess = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    setNavigate(navigate);
+  }, [navigate]);
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,7 +33,8 @@ const Routess = () => {
         <Route path="admin" element={<Navigate to="/admin/products" />} />
         <Route path="admin/*" element={<Admin />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
+
 export default Routess;
