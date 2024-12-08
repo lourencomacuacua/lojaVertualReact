@@ -6,6 +6,15 @@ import Admin from './pages/Admin';
 import ProductDetails from './pages/ProductDetails';
 import Auth from './pages/Admin/Auth';
 
+type LoginResponse = {
+  access_token: string;
+  token_type: string;
+  expires_in: Number;
+  scope: string;
+  userFirstName: string;
+  userId: number;
+};
+
 const Routess = () => {
   return (
     <BrowserRouter>

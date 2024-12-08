@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import ButtonIcon from '../../../../components/ButtonIcon';
 import { useForm } from 'react-hook-form';
-import { requestBackendLogin } from '../../../../util/requests';
+import {
+  getAuthData,
+  requestBackendLogin,
+  saveAuthData,
+} from '../../../../util/requests';
 import { useState } from 'react';
 type FormData = {
   username: string;
@@ -20,6 +24,9 @@ const Login = () => {
   const onsubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
+        saveAuthData(response.data);
+        const token = getAuthData().access_token;
+        console.log('TOKEN GERADA: ' + token);
         setHasError(false);
         console.log('SUCESSO', response);
       })
