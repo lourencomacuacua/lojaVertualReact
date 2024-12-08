@@ -6,28 +6,20 @@ import { requestBackend } from '../../../util/requests';
 import { SpringPage } from '../../../types/vendor/spring';
 
 const Users = () => {
-  const [page, setPage] = useState<SpringPage<User> | null>(null);
+  const [page, setPage] = useState<SpringPage<User>>();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const params: AxiosRequestConfig = {
-        url: '/users',
-        withCredentials: true,
-        params: {
-          page: 1,
-          size: 12,
-        },
-      };
-
-      try {
-        const response = await requestBackend(params);
-        setPage(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar usuários:', error);
-      }
+    const params: AxiosRequestConfig = {
+      url: '/users',
+      withCredentials: true,
+      params: {
+        page: 0,
+        size: 12,
+      },
     };
-
-    fetchUsers();
+    requestBackend(params).then((response) => {
+      setPage(response.data);
+    });
   }, []);
 
   return (
