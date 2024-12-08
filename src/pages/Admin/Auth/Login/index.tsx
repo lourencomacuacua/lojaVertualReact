@@ -1,14 +1,26 @@
 import { Link } from 'react-router-dom';
 import './styles.css';
 import ButtonIcon from '../../../../components/ButtonIcon';
+import { useForm } from 'react-hook-form';
+type FormData = {
+  username: string;
+  password: string;
+};
 
 const Login = () => {
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const onsubmit = (formData: FormData) => {
+    console.log(formData);
+  };
+
   return (
     <div className="base-card login-card">
       <h1>LOGIN</h1>
-      <form>
+      <form onSubmit={handleSubmit(onsubmit)}>
         <div className="mb-4">
           <input
+            {...register('username')}
             type="text"
             className="form-control base-input"
             placeholder="Email"
@@ -17,6 +29,7 @@ const Login = () => {
         </div>
         <div className="mb-2">
           <input
+            {...register('password')}
             type="password"
             className="form-control base-input"
             placeholder="Password"
