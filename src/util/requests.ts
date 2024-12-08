@@ -84,3 +84,13 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+const handleLogin = (token: string) => {
+  localStorage.setItem('authToken', token);
+  window.location.reload(); // Garante recarregamento da aplicação
+};
+
+export const isAuthenticated = (): boolean => {
+  const token = localStorage.getItem('authToken');
+  return token !== null && token.length > 0; // Verifica existência e não está vazio
+};
