@@ -8,6 +8,7 @@ import {
   saveAuthData,
 } from '../../../../util/requests';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 type FormData = {
   username: string;
   password: string;
@@ -21,14 +22,17 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormData>();
 
+  const navigate = useNavigate();
+
   const onsubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
         saveAuthData(response.data);
         const token = getAuthData().access_token;
-        console.log('TOKEN GERADA: ' + token);
+        console.log('TOKEN GERADO: ' + token);
         setHasError(false);
         console.log('SUCESSO', response);
+        navigate('/admin');
       })
       .catch((erro) => {
         setHasError(true);
