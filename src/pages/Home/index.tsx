@@ -3,7 +3,6 @@ import Navbar from '../../components/Navbar';
 import mainImage from '../../assets/images/main-image.jpg';
 import './styles.css';
 import { Link } from 'react-router-dom';
-import { hasAnyRoles, isAuthenticated } from '../../util/requests';
 
 const Home = () => {
   return (

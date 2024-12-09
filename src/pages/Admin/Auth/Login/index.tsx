@@ -2,15 +2,13 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import ButtonIcon from '../../../../components/ButtonIcon';
 import { useForm } from 'react-hook-form';
-import {
-  getAuthData,
-  getTokenData,
-  requestBackendLogin,
-  saveAuthData,
-} from '../../../../util/requests';
+
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../AuthContext';
+import { getAuthData, saveAuthData } from '../../../../util/storage';
+import { getTokenData } from '../../../../util/auth';
+import { requestBackendLogin } from '../../../../util/requests';
 type FormData = {
   username: string;
   password: string;

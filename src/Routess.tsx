@@ -9,10 +9,11 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Catalog from './pages/Catalog';
 import Admin from './pages/Admin';
-import ProductDetails from './pages/ProductDetails';
+
 import Auth from './pages/Admin/Auth';
 import { setNavigate } from './util/navigateHelper';
 import { useEffect } from 'react';
+import ProductDetails from './pages/ProductDetails';
 const Routess = () => {
   const navigate = useNavigate();
   useEffect(() => {

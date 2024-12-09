@@ -2,28 +2,10 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { config } from 'process';
 import qs from 'qs';
 import { navigate } from './navigateHelper';
-import { jwtDecode } from 'jwt-decode';
-
-type LoginResponse = {
-  access_token: string;
-  token_type: string;
-  expires_in: Number;
-  scope: string;
-  userFirstName: string;
-  userId: number;
-};
-
-type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
-export type TokenData = {
-  exp: number;
-  user_name: string;
-  authorities: Role[];
-};
+import { getAuthData } from './storage';
 
 export const BASE_URL =
   process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
-
-const tokenKey = 'authData';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'dscatalog';
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'dscatalog123';
@@ -63,19 +45,6 @@ export const requestBackend = (config: AxiosRequestConfig) => {
   return axios({ ...config, baseURL: BASE_URL, headers });
 };
 
-export const saveAuthData = (obj: LoginResponse) => {
-  localStorage.setItem('authData', JSON.stringify(obj));
-};
-
-export const getAuthData = () => {
-  const str = localStorage.getItem(tokenKey) ?? '{}';
-  return JSON.parse(str) as LoginResponse;
-};
-
-export const removeAuthDate = () => {
-  localStorage.removeItem(tokenKey);
-};
-
 axios.interceptors.request.use(
   function (config) {
     return config;
@@ -100,33 +69,4 @@ axios.interceptors.response.use(
 const handleLogin = (token: string) => {
   localStorage.setItem('authToken', token);
   window.location.reload(); // Garante recarregamento da aplicação
-};
-
-export const getTokenData = (): TokenData | undefined => {
-  try {
-    return jwtDecode(getAuthData().access_token) as TokenData;
-  } catch (error) {
-    return undefined;
-  }
-};
-
-export const isAuthenticated = (): boolean => {
-  const tokenData = getTokenData();
-  return tokenData && tokenData.exp * 1000 > Date.now() ? true : false;
-};
-
-export const hasAnyRoles = (roles: Role[]): boolean => {
-  if (roles.length === 0) {
-    return true;
-  }
-  const tokenData = getTokenData();
-  if (tokenData !== undefined) {
-    for (var i = 0; i < roles.length; i++) {
-      if (tokenData.authorities.includes(roles[i])) {
-        return true;
-      }
-    }
-    //return roles.some((role) => tokenData.authorities.includes(role));
-  }
-  return false;
 };

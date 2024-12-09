@@ -43,7 +43,7 @@ const Catalog = () => {
           page?.content.map((product) => {
             return (
               <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
-                <Link to="/product/1">
+                <Link to={`/products/${product.id}`}>
                   <ProductCard product={product} />
                 </Link>
               </div>
