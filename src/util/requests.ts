@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { config } from 'process';
 import qs from 'qs';
 import { navigate } from './navigateHelper';
+import { jwtDecode } from 'jwt-decode';
 
 type LoginResponse = {
   access_token: string;
@@ -10,6 +11,13 @@ type LoginResponse = {
   scope: string;
   userFirstName: string;
   userId: number;
+};
+
+type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+export type TokenData = {
+  exp: number;
+  user_name: string;
+  authorities: Role[];
 };
 
 export const BASE_URL =
@@ -64,6 +72,10 @@ export const getAuthData = () => {
   return JSON.parse(str) as LoginResponse;
 };
 
+export const removeAuthDate = () => {
+  localStorage.removeItem(tokenKey);
+};
+
 axios.interceptors.request.use(
   function (config) {
     return config;
@@ -90,7 +102,15 @@ const handleLogin = (token: string) => {
   window.location.reload(); // Garante recarregamento da aplicação
 };
 
+export const getTokenData = (): TokenData | undefined => {
+  try {
+    return jwtDecode(getAuthData().access_token) as TokenData;
+  } catch (error) {
+    return undefined;
+  }
+};
+
 export const isAuthenticated = (): boolean => {
-  const token = localStorage.getItem('authToken');
-  return token !== null && token.length > 0; // Verifica existência e não está vazio
+  const tokenData = getTokenData();
+  return tokenData && tokenData.exp * 1000 > Date.now() ? true : false;
 };
