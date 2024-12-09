@@ -4,17 +4,20 @@ import ButtonIcon from '../../../../components/ButtonIcon';
 import { useForm } from 'react-hook-form';
 import {
   getAuthData,
+  getTokenData,
   requestBackendLogin,
   saveAuthData,
 } from '../../../../util/requests';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../AuthContext';
 type FormData = {
   username: string;
   password: string;
 };
 
 const Login = () => {
+  const { setAuthContextData } = useContext(AuthContext);
   const [hasError, setHasError] = useState(false);
   const {
     register,
@@ -29,9 +32,11 @@ const Login = () => {
       .then((response) => {
         saveAuthData(response.data);
         const token = getAuthData().access_token;
-        console.log('TOKEN GERADO: ' + token);
         setHasError(false);
-        console.log('SUCESSO', response);
+        setAuthContextData({
+          authenticated: true,
+          tokenData: getTokenData(),
+        });
         navigate('/admin');
       })
       .catch((erro) => {
