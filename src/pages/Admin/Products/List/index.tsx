@@ -1,4 +1,9 @@
 const List = () => {
-  return <h1>Tela List</h1>;
+  return (
+    <div>
+      <button className="btn btn-primary text-white"> ADICIONAR</button>
+      <div>Search bar</div>
+    </div>
+  );
 };
 export default List;

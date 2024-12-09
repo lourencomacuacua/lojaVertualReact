@@ -2,10 +2,9 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import 'bootstrap/js/src/collapse.js';
 import { NavLink } from 'react-router-dom';
-
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../AuthContext';
-import { getTokenData, isAuthenticated } from '../../util/auth';
+import { getTokenData, hasAnyRoles, isAuthenticated } from '../../util/auth';
 import { removeAuthDate } from '../../util/storage';
 
 const Navbar = () => {
@@ -32,8 +31,9 @@ const Navbar = () => {
     });
     window.location.replace('/');
   };
+
   return (
-    <nav className="navbar navbar-expand-md  navbar-dark bg-primary main-nav">
+    <nav className="navbar navbar-expand-md navbar-dark bg-primary main-nav">
       <div className="container-fluid">
         <Link to="/" className="nav-logo-text">
           <h4>DS Catalog</h4>
@@ -50,6 +50,7 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="dscatalog-navbar">
           <ul className="navbar-nav offset-md-2 main-menu">
             <li>
@@ -58,9 +59,11 @@ const Navbar = () => {
             <li>
               <NavLink to="/products">CATÁLOGO</NavLink>
             </li>
-            <li>
-              <NavLink to="/admin">ADMIN</NavLink>
-            </li>
+            {hasAnyRoles(['ROLE_ADMIN', 'ROLE_OPERATOR']) && (
+              <li>
+                <NavLink to="/admin">ADMIN</NavLink>
+              </li>
+            )}
           </ul>
         </div>
 
