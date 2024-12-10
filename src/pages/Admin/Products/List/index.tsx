@@ -9,6 +9,10 @@ import { AxiosRequestConfig } from 'axios';
 const List = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
   useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = () => {
     const confing: AxiosRequestConfig = {
       method: 'GET',
       url: '/products',
@@ -20,7 +24,7 @@ const List = () => {
     requestBackend(confing).then((response) => {
       setPage(response.data);
     });
-  }, []);
+  };
 
   return (
     <div className="product-crud-container">
@@ -36,7 +40,7 @@ const List = () => {
       <div className="row">
         {page?.content.map((product) => (
           <div key={product.id} className="col-sm-6 col-md-12">
-            <ProductCrudCard product={product} />
+            <ProductCrudCard product={product} onDelete={() => getProducts()} />
           </div>
         ))}
       </div>
