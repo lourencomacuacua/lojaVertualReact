@@ -9,7 +9,7 @@ import { AuthContext } from '../../../../AuthContext';
 import { getAuthData, saveAuthData } from '../../../../util/storage';
 import { getTokenData } from '../../../../util/auth';
 import { requestBackendLogin } from '../../../../util/requests';
-type FormData = {
+type CredentialsDTO = {
   username: string;
   password: string;
 };
@@ -21,11 +21,11 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<CredentialsDTO>();
 
   const navigate = useNavigate();
 
-  const onsubmit = (formData: FormData) => {
+  const onsubmit = (formData: CredentialsDTO) => {
     requestBackendLogin(formData)
       .then((response) => {
         saveAuthData(response.data);
