@@ -3,32 +3,57 @@ import './styles.css';
 import { Product } from '../../../../types/product';
 import { requestBackend } from '../../../../util/requests';
 import { AxiosRequestConfig } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
+type UrlParms = {
+  productId: string;
+};
+
 const Form = () => {
+  const { productId } = useParams<UrlParms>();
+
+  const isEditing = productId !== 'create';
+
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<Product>();
+
+  useEffect(() => {
+    if (isEditing) {
+      requestBackend({ url: `/products/${productId}` }).then((response) => {
+        const product = response.data as Product;
+        setValue('name', product.name);
+        setValue('price', product.price);
+        setValue('description', product.description);
+        setValue('imgUrl', product.imgUrl);
+        setValue('categories', product.categories);
+      });
+    }
+  }, [isEditing, productId, setValue]);
 
   const onsubmit = (formData: Product) => {
     const data = {
       ...formData,
-      imgUrl:
-        'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/i-big.jpg',
-      categories: [{ id: 1, name: '' }],
+      imgUrl: isEditing
+        ? formData.imgUrl
+        : 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/i-big.jpg',
+      categories: isEditing ? formData.categories : [{ id: 1, name: '' }],
     };
 
     const confing: AxiosRequestConfig = {
-      method: 'POST',
-      url: '/products',
+      method: isEditing ? 'PUT' : 'POST',
+      url: isEditing ? `/products/${productId}` : '/products',
       data,
       withCredentials: true,
     };
 
-    requestBackend(confing).then((response) => {
-      console.log(response.data);
+    requestBackend(confing).then(() => {
+      navigate('/admin/products');
     });
   };
 
