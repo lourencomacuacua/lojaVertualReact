@@ -8090,6 +8090,11 @@ react-content-loader@^7.0.2:
   resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-7.0.2.tgz#5d5e0f723cb937db88f9fec1c5b0651cd301c42e"
   integrity sha512-773S98JTyC8VB2nu7LXUhpHx8tZMieGxMcx3qTe7IkohT6Br7d9AXnIXs/wQ6IhlUdKQcw6JLKk1QKigYCWDRA==
 
+react-currency-input-field@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.9.0.tgz#c28bc8a55039e418156bfa2391524f2c545d1369"
+  integrity sha512-OmkO0rRSGiNGbcO4F1wzC+Szm2A7tLRGtDAKF6t0xNrFr07q99AHo3BAn/68RTEG4iwqc2m2jekKZi33/8SV+Q==
+
 react-dev-utils@^12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-12.0.1.tgz#ba92edb4a1f379bd46ccd6bcd4e7bc398df33e73"
