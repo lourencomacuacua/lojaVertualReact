@@ -1,31 +1,43 @@
 import { Link } from 'react-router-dom';
 import './styles.css';
 import ProductCrudCard from '../ProductCrudCard';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SpringPage } from '../../../../types/vendor/spring';
 import { Product } from '../../../../types/product';
 import { requestBackend } from '../../../../util/requests';
 import { AxiosRequestConfig } from 'axios';
 import Pagination from '../../../../components/Pagination';
+type ControlComponentsData = {
+  activePage: number;
+};
 const List = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
-  useEffect(() => {
-    getProducts(0);
-  }, []);
+  const [controlComponentsDate, setControlComponentsDate] =
+    useState<ControlComponentsData>({
+      activePage: 0,
+    });
 
-  const getProducts = (pageNumber: number) => {
+  const handlePageChange = (pageNumber: number) => {
+    setControlComponentsDate({ activePage: pageNumber });
+  };
+
+  const getProducts = useCallback(() => {
     const confing: AxiosRequestConfig = {
       method: 'GET',
       url: '/products',
       params: {
-        page: pageNumber,
+        page: controlComponentsDate.activePage,
         size: 3,
       },
     };
     requestBackend(confing).then((response) => {
       setPage(response.data);
     });
-  };
+  }, [controlComponentsDate]);
+
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
 
   return (
     <div className="product-crud-container">
@@ -41,10 +53,7 @@ const List = () => {
       <div className="row">
         {page?.content.map((product) => (
           <div key={product.id} className="col-sm-6 col-md-12">
-            <ProductCrudCard
-              product={product}
-              onDelete={() => getProducts(page.number)}
-            />
+            <ProductCrudCard product={product} onDelete={getProducts} />
           </div>
         ))}
       </div>
@@ -52,7 +61,7 @@ const List = () => {
       <Pagination
         pageCount={page ? page.totalPages : 0}
         range={3}
-        onChange={getProducts}
+        onChange={handlePageChange}
       />
     </div>
   );
