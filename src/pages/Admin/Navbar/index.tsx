@@ -5,7 +5,7 @@ import { hasAnyRoles } from '../../../util/auth';
 const Navbar = () => {
   return (
     <nav className="admin-nav-container">
-      <ul>
+      <ul className="admin-nav-itens-container">
         {hasAnyRoles(['ROLE_ADMIN', 'ROLE_OPERATOR']) && (
           <>
             <li>

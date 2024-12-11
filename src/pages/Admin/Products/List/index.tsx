@@ -6,6 +6,7 @@ import { SpringPage } from '../../../../types/vendor/spring';
 import { Product } from '../../../../types/product';
 import { requestBackend } from '../../../../util/requests';
 import { AxiosRequestConfig } from 'axios';
+import Pagination from '../../../../components/Pagination';
 const List = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
   useEffect(() => {
@@ -44,6 +45,8 @@ const List = () => {
           </div>
         ))}
       </div>
+
+      <Pagination />
     </div>
   );
 };
