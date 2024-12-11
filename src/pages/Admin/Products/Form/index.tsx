@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Category } from '../../../../types/Category';
 import CurrencyInput from 'react-currency-input-field';
+import { toast } from 'react-toastify';
 
 type UrlParms = {
   productId: string;
@@ -61,9 +62,14 @@ const Form = () => {
       withCredentials: true,
     };
 
-    requestBackend(confing).then(() => {
-      navigate('/admin/products');
-    });
+    requestBackend(confing)
+      .then(() => {
+        toast.info('Produto cadastrado com sucesso!');
+        navigate('/admin/products');
+      })
+      .catch(() => {
+        toast.error('Erro ao cadastrar Produto!');
+      });
   };
 
   const handleCancel = () => {
