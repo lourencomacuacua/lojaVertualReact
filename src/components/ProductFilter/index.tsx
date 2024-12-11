@@ -1,10 +1,16 @@
 import './styles.css';
+import SearchIcon from '../../assets/images/search-icon.svg';
 const ProductFilter = () => {
   return (
     <div className="base-card product-filter-container">
       <form action="" className="product-filter-container">
         <div className="product-filter-name-container">
-          <input type="text" className="form-control" />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Nome do produto"
+          />
+          <img src={SearchIcon} alt="Icon de pesquisa" />
         </div>
         <div className="product-filter-bottom-container">
           <div className="product-filter-category-container">
