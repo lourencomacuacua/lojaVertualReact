@@ -3,6 +3,7 @@ import './App.css';
 import { useState } from 'react';
 import Header from './components/header';
 import Filter from './components/filter';
+import SalesByDate from './components/sales-by-dates';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Header />
       <div className="app-container">
         <Filter />
+        <SalesByDate />
       </div>
     </>
   );
