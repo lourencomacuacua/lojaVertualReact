@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Header from './components/header';
 import Filter from './components/filter';
 import SalesByDate from './components/sales-by-dates';
+import SalesSummary from './components/sales-summary';
 
 const App = () => {
   return (
@@ -12,6 +13,9 @@ const App = () => {
       <div className="app-container">
         <Filter />
         <SalesByDate />
+        <div className="sales-overview-container">
+          <SalesSummary />
+        </div>
       </div>
     </>
   );
