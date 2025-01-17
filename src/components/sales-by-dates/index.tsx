@@ -1,5 +1,14 @@
 import React from 'react';
 import './styles.css';
+import ReactApexChart from 'react-apexcharts';
+import { chartOptions } from './helpers';
+const initialDate = [
+  { x: '2020-01-01', y: 548 },
+  { x: '2020-02-01', y: 190 },
+  { x: '2020-3-01', y: 90 },
+  { x: '2020-04-01', y: 54 },
+];
+
 function SalesByDate() {
   return (
     <div className="sales-by-date-container base-card">
@@ -17,6 +26,15 @@ function SalesByDate() {
           <span className="sales-by-date-quantity-description">
             O gráfico mostra as vendas em todas as lojas
           </span>
+        </div>
+        <div className="sales-by-date-chart">
+          <ReactApexChart
+            options={chartOptions}
+            series={[{ name: 'Vendas', data: initialDate }]}
+            type="bar"
+            height={240}
+            width="100%"
+          />
         </div>
       </div>
     </div>
