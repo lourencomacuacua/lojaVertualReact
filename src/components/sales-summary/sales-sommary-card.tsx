@@ -1,11 +1,16 @@
 import React from 'react';
 import { ReactComponent as AvatarIcon } from '../../assets/avatar-icon.svg';
-function SalesSommaryCard() {
+type Props = {
+  value: number;
+  label: string;
+  icon: React.ReactNode;
+};
+function SalesSommaryCard({ value, label, icon }: Props) {
   return (
     <div className="sales-sommary-card base-card">
-      <AvatarIcon />
-      <h3 className="sales-sommary-card-value">534.00</h3>
-      <span className="sales-sommary-card-label">Média</span>
+      {icon}
+      <h3 className="sales-sommary-card-value">{value}</h3>
+      <span className="sales-sommary-card-label">{label}</span>
     </div>
   );
 }
