@@ -1,4 +1,9 @@
-export type SalesByDate = {
+export type salesByDate = {
   date: string;
-  som: number;
+  sum: number;
+};
+
+export type ChartSeriesDate = {
+  x: string;
+  y: number;
 };

@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 import ReactApexChart from 'react-apexcharts';
-import { chartOptions } from './helpers';
+import { buildChartSeries, chartOptions, sumSalesByDate } from './helpers';
 import { makeRequest } from '../../utils/request';
-const initialDate = [
-  { x: '2020-01-01', y: 548 },
-  { x: '2020-02-01', y: 190 },
-  { x: '2020-3-01', y: 90 },
-  { x: '2020-04-01', y: 54 },
-];
+import { ChartSeriesDate, salesByDate } from '../../types';
+import { formatPrice } from '../../utils/formatter';
 
 function SalesByDate() {
-  const [salesByDate, setSalesByDate] = useState();
+  const [chartSeries, setChartSeries] = useState<ChartSeriesDate[]>([]);
+  const [totalSum, setTotalSum] = useState(0);
+
   useEffect(() => {
     makeRequest
-      .get('/sales/by-date?minDate=2017-01-01&maxDate=2017-01-31&gender=FEMALE')
+      .get<salesByDate[]>(
+        '/sales/by-date?minDate=2017-01-01&maxDate=2017-01-31&gender=FEMALE'
+      )
       .then((response) => {
+        const newChartSeries = buildChartSeries(response.data);
         console.log(response.data);
+        setChartSeries(newChartSeries);
+        const newTotalSum = sumSalesByDate(response.data);
+        setTotalSum(newTotalSum);
       });
   }, []);
 
@@ -29,7 +33,7 @@ function SalesByDate() {
 
       <div className="sales-by-data">
         <div className="sales-by-date-quantity-container">
-          <h2 className="sales-by-date-quantity">464.988,00</h2>
+          <h2 className="sales-by-date-quantity">{formatPrice(totalSum)}</h2>
           <span className="sales-by-date-quantity-label">
             Vendas no período
           </span>
@@ -40,7 +44,7 @@ function SalesByDate() {
         <div className="sales-by-date-chart">
           <ReactApexChart
             options={chartOptions}
-            series={[{ name: 'Vendas', data: initialDate }]}
+            series={[{ name: 'Vendas', data: chartSeries }]}
             type="bar"
             height={240}
             width="100%"
