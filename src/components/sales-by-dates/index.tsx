@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import ReactApexChart from 'react-apexcharts';
 import { chartOptions } from './helpers';
+import { makeRequest } from '../../utils/request';
 const initialDate = [
   { x: '2020-01-01', y: 548 },
   { x: '2020-02-01', y: 190 },
@@ -10,6 +11,15 @@ const initialDate = [
 ];
 
 function SalesByDate() {
+  const [salesByDate, setSalesByDate] = useState();
+  useEffect(() => {
+    makeRequest
+      .get('/sales/by-date?minDate=2017-01-01&maxDate=2017-01-31&gender=FEMALE')
+      .then((response) => {
+        console.log(response.data);
+      });
+  }, []);
+
   return (
     <div className="sales-by-date-container base-card">
       <div>
